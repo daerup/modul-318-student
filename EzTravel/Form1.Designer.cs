@@ -35,7 +35,7 @@
             this.txt_Destination = new System.Windows.Forms.TextBox();
             this.dtg_Plan = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btn_Mail = new System.Windows.Forms.Button();
             this.dtp_Date = new System.Windows.Forms.DateTimePicker();
             this.pb_Logo = new System.Windows.Forms.PictureBox();
             this.dtp_Time = new System.Windows.Forms.DateTimePicker();
@@ -61,12 +61,13 @@
             // btn_Search
             // 
             this.btn_Search.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btn_Search.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btn_Search.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
+            this.btn_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.btn_Search.ForeColor = System.Drawing.Color.White;
-            this.btn_Search.Location = new System.Drawing.Point(335, 53);
+            this.btn_Search.Location = new System.Drawing.Point(269, 53);
             this.btn_Search.Name = "btn_Search";
-            this.btn_Search.Size = new System.Drawing.Size(153, 114);
+            this.btn_Search.Size = new System.Drawing.Size(77, 114);
             this.btn_Search.TabIndex = 5;
             this.btn_Search.Text = "Suchen";
             this.btn_Search.UseVisualStyleBackColor = false;
@@ -88,7 +89,7 @@
             this.txt_Departure.ForeColor = System.Drawing.Color.Gray;
             this.txt_Departure.Location = new System.Drawing.Point(14, 53);
             this.txt_Departure.Name = "txt_Departure";
-            this.txt_Departure.Size = new System.Drawing.Size(300, 26);
+            this.txt_Departure.Size = new System.Drawing.Size(249, 26);
             this.txt_Departure.TabIndex = 1;
             this.txt_Departure.Text = "Abfahrtsort";
             this.txt_Departure.TextChanged += new System.EventHandler(this.txt_Departure_TextChanged);
@@ -102,7 +103,7 @@
             this.txt_Destination.ForeColor = System.Drawing.Color.Gray;
             this.txt_Destination.Location = new System.Drawing.Point(14, 141);
             this.txt_Destination.Name = "txt_Destination";
-            this.txt_Destination.Size = new System.Drawing.Size(300, 26);
+            this.txt_Destination.Size = new System.Drawing.Size(249, 26);
             this.txt_Destination.TabIndex = 2;
             this.txt_Destination.Text = "Zielort";
             this.txt_Destination.TextChanged += new System.EventHandler(this.txt_Destination_TextChanged);
@@ -117,9 +118,10 @@
             this.dtg_Plan.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtg_Plan.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.dtg_Plan.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtg_Plan.Location = new System.Drawing.Point(522, 49);
+            this.dtg_Plan.Location = new System.Drawing.Point(362, 49);
             this.dtg_Plan.Name = "dtg_Plan";
-            this.dtg_Plan.Size = new System.Drawing.Size(445, 143);
+            this.dtg_Plan.RowHeadersVisible = false;
+            this.dtg_Plan.Size = new System.Drawing.Size(605, 143);
             this.dtg_Plan.TabIndex = 7;
             // 
             // button1
@@ -134,17 +136,18 @@
             this.button1.Text = "Drucken";
             this.button1.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btn_Mail
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(762, 620);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 30);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "E-Mail";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btn_Mail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btn_Mail.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Mail.ForeColor = System.Drawing.Color.White;
+            this.btn_Mail.Location = new System.Drawing.Point(762, 620);
+            this.btn_Mail.Name = "btn_Mail";
+            this.btn_Mail.Size = new System.Drawing.Size(75, 30);
+            this.btn_Mail.TabIndex = 6;
+            this.btn_Mail.Text = "E-Mail";
+            this.btn_Mail.UseVisualStyleBackColor = false;
+            this.btn_Mail.Click += new System.EventHandler(this.btn_Mail_Click);
             // 
             // dtp_Date
             // 
@@ -153,11 +156,11 @@
             this.dtp_Date.CustomFormat = "ddMMMMyyyy";
             this.dtp_Date.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Date.Location = new System.Drawing.Point(14, 225);
+            this.dtp_Date.Location = new System.Drawing.Point(14, 207);
             this.dtp_Date.MaxDate = new System.DateTime(3000, 12, 31, 0, 0, 0, 0);
             this.dtp_Date.MinDate = new System.DateTime(2010, 1, 1, 0, 0, 0, 0);
             this.dtp_Date.Name = "dtp_Date";
-            this.dtp_Date.Size = new System.Drawing.Size(175, 26);
+            this.dtp_Date.Size = new System.Drawing.Size(172, 26);
             this.dtp_Date.TabIndex = 3;
             // 
             // pb_Logo
@@ -174,37 +177,38 @@
             this.dtp_Time.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_Time.CalendarTitleBackColor = System.Drawing.Color.Black;
             this.dtp_Time.Checked = false;
-            this.dtp_Time.CustomFormat = "HH:mm";
+            this.dtp_Time.CustomFormat = "HHHH:mm";
             this.dtp_Time.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtp_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Time.Location = new System.Drawing.Point(229, 225);
+            this.dtp_Time.Location = new System.Drawing.Point(201, 207);
             this.dtp_Time.MaxDate = new System.DateTime(3000, 12, 31, 0, 0, 0, 0);
             this.dtp_Time.MinDate = new System.DateTime(2010, 1, 1, 0, 0, 0, 0);
             this.dtp_Time.Name = "dtp_Time";
             this.dtp_Time.ShowUpDown = true;
-            this.dtp_Time.Size = new System.Drawing.Size(85, 26);
+            this.dtp_Time.Size = new System.Drawing.Size(62, 26);
             this.dtp_Time.TabIndex = 4;
+            this.dtp_Time.Value = new System.DateTime(2017, 12, 11, 13, 31, 0, 0);
             // 
             // lbox_Destination
             // 
-            this.lbox_Destination.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbox_Destination.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbox_Destination.FormattingEnabled = true;
-            this.lbox_Destination.ItemHeight = 16;
+            this.lbox_Destination.ItemHeight = 18;
             this.lbox_Destination.Location = new System.Drawing.Point(14, 166);
             this.lbox_Destination.Name = "lbox_Destination";
-            this.lbox_Destination.Size = new System.Drawing.Size(300, 196);
+            this.lbox_Destination.Size = new System.Drawing.Size(249, 184);
             this.lbox_Destination.TabIndex = 14;
             this.lbox_Destination.Visible = false;
             this.lbox_Destination.DoubleClick += new System.EventHandler(this.lbox_Destination_DoubleClick);
             // 
             // lbox_Departure
             // 
-            this.lbox_Departure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbox_Departure.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbox_Departure.FormattingEnabled = true;
-            this.lbox_Departure.ItemHeight = 16;
-            this.lbox_Departure.Location = new System.Drawing.Point(78, 225);
+            this.lbox_Departure.ItemHeight = 18;
+            this.lbox_Departure.Location = new System.Drawing.Point(14, 78);
             this.lbox_Departure.Name = "lbox_Departure";
-            this.lbox_Departure.Size = new System.Drawing.Size(300, 196);
+            this.lbox_Departure.Size = new System.Drawing.Size(249, 184);
             this.lbox_Departure.TabIndex = 15;
             this.lbox_Departure.Visible = false;
             this.lbox_Departure.DoubleClick += new System.EventHandler(this.lbox_Departure_DoubleClick);
@@ -216,16 +220,18 @@
             this.dtg_Table.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtg_Table.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dtg_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtg_Table.Location = new System.Drawing.Point(522, 242);
+            this.dtg_Table.Location = new System.Drawing.Point(362, 242);
             this.dtg_Table.Name = "dtg_Table";
-            this.dtg_Table.Size = new System.Drawing.Size(445, 344);
+            this.dtg_Table.RowHeadersVisible = false;
+            this.dtg_Table.RowHeadersWidth = 10;
+            this.dtg_Table.Size = new System.Drawing.Size(605, 344);
             this.dtg_Table.TabIndex = 16;
             // 
             // lbl_Plan
             // 
             this.lbl_Plan.AutoSize = true;
             this.lbl_Plan.Font = new System.Drawing.Font("Freestyle Script", 20F, System.Drawing.FontStyle.Bold);
-            this.lbl_Plan.Location = new System.Drawing.Point(516, 14);
+            this.lbl_Plan.Location = new System.Drawing.Point(356, 14);
             this.lbl_Plan.Name = "lbl_Plan";
             this.lbl_Plan.Size = new System.Drawing.Size(82, 32);
             this.lbl_Plan.TabIndex = 17;
@@ -235,7 +241,7 @@
             // 
             this.lbl_Tafel.AutoSize = true;
             this.lbl_Tafel.Font = new System.Drawing.Font("Freestyle Script", 20F, System.Drawing.FontStyle.Bold);
-            this.lbl_Tafel.Location = new System.Drawing.Point(516, 207);
+            this.lbl_Tafel.Location = new System.Drawing.Point(356, 207);
             this.lbl_Tafel.Name = "lbl_Tafel";
             this.lbl_Tafel.Size = new System.Drawing.Size(121, 32);
             this.lbl_Tafel.TabIndex = 18;
@@ -253,14 +259,14 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.lbox_Departure);
             this.tabPage1.Controls.Add(this.lbox_Destination);
+            this.tabPage1.Controls.Add(this.lbox_Departure);
             this.tabPage1.Controls.Add(this.lbl_Plan);
             this.tabPage1.Controls.Add(this.lbl_Tafel);
             this.tabPage1.Controls.Add(this.dtp_Date);
             this.tabPage1.Controls.Add(this.dtg_Table);
             this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Controls.Add(this.button2);
+            this.tabPage1.Controls.Add(this.btn_Mail);
             this.tabPage1.Controls.Add(this.dtp_Time);
             this.tabPage1.Controls.Add(this.txt_Destination);
             this.tabPage1.Controls.Add(this.dtg_Plan);
@@ -274,11 +280,13 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Verbindung Suchen";
             this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // pb_TwoArrows
             // 
+            this.pb_TwoArrows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_TwoArrows.Image = ((System.Drawing.Image)(resources.GetObject("pb_TwoArrows.Image")));
-            this.pb_TwoArrows.Location = new System.Drawing.Point(163, 85);
+            this.pb_TwoArrows.Location = new System.Drawing.Point(115, 85);
             this.pb_TwoArrows.Name = "pb_TwoArrows";
             this.pb_TwoArrows.Size = new System.Drawing.Size(48, 50);
             this.pb_TwoArrows.TabIndex = 19;
@@ -301,6 +309,7 @@
             this.web_Gmap.Location = new System.Drawing.Point(-4, 0);
             this.web_Gmap.MinimumSize = new System.Drawing.Size(20, 20);
             this.web_Gmap.Name = "web_Gmap";
+            this.web_Gmap.ScriptErrorsSuppressed = true;
             this.web_Gmap.Size = new System.Drawing.Size(984, 660);
             this.web_Gmap.TabIndex = 21;
             this.web_Gmap.Url = new System.Uri("", System.UriKind.Relative);
@@ -339,7 +348,7 @@
         private System.Windows.Forms.TextBox txt_Destination;
         private System.Windows.Forms.DataGridView dtg_Plan;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btn_Mail;
         private System.Windows.Forms.DateTimePicker dtp_Date;
         private System.Windows.Forms.PictureBox pb_Logo;
         private System.Windows.Forms.DateTimePicker dtp_Time;
@@ -351,8 +360,8 @@
         private System.Windows.Forms.TabControl tab_Main;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.WebBrowser web_Gmap;
         private System.Windows.Forms.PictureBox pb_TwoArrows;
+        private System.Windows.Forms.WebBrowser web_Gmap;
     }
 }
 

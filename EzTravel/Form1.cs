@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 using SwissTransport;
 
 namespace EzTravel
@@ -159,31 +160,30 @@ namespace EzTravel
         {
             //DataTable erstellen
             DataTable dt_Connections = new DataTable();
-            dt_Connections.Columns.Add("AbfahrtsOrt");
+            dt_Connections.Columns.Add("Abfahrtsort");
             dt_Connections.Columns.Add("Zielort");
             dt_Connections.Columns.Add("Abfahrtszeit");
             dt_Connections.Columns.Add("Zielzeit");
             dt_Connections.Columns.Add("Reisedauer");
-            
-            
-            //Verbindungen auslesen
-            Connections stb = Transport.GetConnections(txt_Departure.Text, txt_Destination.Text);
-            
-            //Verbindungen in DataTAble speichern
-            
-            foreach (Connection station in stb.ConnectionList)//.Where((ConvertTimetoInt((ConvertDateToTime(station.From.Departure))) >= Convertdtp_TimetointTime(""))))
-            {
-                if (((ConvertTimetoInt((ConvertDateToTime(station.From.Departure))) >= Convertdtp_TimetointTime(""))))
-                    {
-                        dt_Connections.Rows.Add(station.From.Station.Name, station.To.Station.Name,
-                        ConvertDateToTime(station.From.Departure), ConvertDateToTime(station.To.Arrival),TimeShortener(station.Duration));
-                        CreateGmap(Convert.ToString(station.From.Station.Coordinate.XCoordinate), Convert.ToString(station.From.Station.Coordinate.YCoordinate));
-                }
-               
-            }
+            dt_Connections.Columns.Add("Abfahrtsdatum");
 
+
+            //Verbindungen auslesen
+            Connections stb = Transport.GetConnections(txt_Departure.Text, txt_Destination.Text, dtp_Time.Text, dtp_Date.Value.ToString("yyyy-MM-dd"));
+;
+            //Verbindungen in DataTAble speichern
+            foreach (Connection station in stb.ConnectionList)
+
+            {
+                dt_Connections.Rows.Add(station.From.Station.Name, station.To.Station.Name,
+                ConvertDateToTime(station.From.Departure), ConvertDateToTime(station.To.Arrival),TimeShortener(station.Duration), ConvertTimetoDate(station.To.Arrival));
+            }
+            
             //DatatAble in DataGrdid hinzufühen
             dtg_Plan.DataSource = dt_Connections;
+            //Erstellt die GoogleMap
+            
+            CreateGmap(Convert.ToString(stb.ConnectionList[0].From.Station.Coordinate.XCoordinate), Convert.ToString(stb.ConnectionList[0].From.Station.Coordinate.YCoordinate));
         }
 
         private void createTable(TextBox txt_Departure)
@@ -225,38 +225,31 @@ namespace EzTravel
             
         }
 
-        private int ConvertTimetoInt(string string_Time)
+        private string ConvertTimetoDate(string str_dateTime)
         {
-            int int_Time=0;
-            string_Time=string_Time.Replace(":","");
-            int_Time = Convert.ToInt32(string_Time);
-            return int_Time;
-
-        }
-        //formatiert die anzeige Zeit des Timepickers zu einem int
-        private int Convertdtp_TimetointTime(string string_Time)
-        {
-            int int_Time;
-            string dtp_time = Convert.ToString(this.dtp_Time.Value.Hour) + Convert.ToString(this.dtp_Time.Value.Minute);
-            int_Time = Convert.ToInt32(dtp_time);
-            return int_Time;
+            string time = str_dateTime.Substring(0, 10);
+            return time;
         }
         //Ergänzt die Zeit mit "h" und "m"
         private string TimeShortener(string longTime)
         {
             string shortTime = longTime.Remove(0, 3);
             shortTime = shortTime.Remove(shortTime.Length - 3);
-            shortTime = shortTime.Replace(":", " h ");
-            shortTime = "" + shortTime + " m";
+            shortTime = shortTime + " Minuten";
+            shortTime = shortTime.Replace(":", " Stunden ");
+            shortTime = shortTime.Replace("00 Stunden 00 Minuten", "<1 Minute");
+            shortTime = shortTime.Replace(" 00 Minuten", "");
+            shortTime = shortTime.Replace("01 Stunden", "1 Stunde");
+            shortTime = shortTime.Replace("01 Minuten", "1 Minute");
+            shortTime = shortTime.Replace("00 Stunden ", "");
+
             return shortTime;
         }
-
-        private string CreateGmap(string x, string y)
+        private void CreateGmap(string x, string y)
         {
             web_Gmap.Visible = true;
             string xy="https://www.google.ch/maps/place/"  + x + ", " + y;
-            web_Gmap.Navigate(""+xy);
-            return "";
+            web_Gmap.Navigate(xy);
         }
         //Vertausch die beiden Textboxen miteinander
         private void pb_TwoArrows_Click(object sender, EventArgs e)
@@ -295,8 +288,11 @@ namespace EzTravel
                 }
                 if (e.KeyCode == Keys.Enter)
                 {
-                    txt_Departure.Text = lbox_Departure.SelectedItem.ToString();
-                    hideListbox();
+                    if (lbox_Departure.SelectedIndex!=null)
+                    {
+                        txt_Departure.Text = Convert.ToString(lbox_Departure.SelectedItem);
+                        hideListbox();
+                    }
                 }
             }
         }
@@ -320,10 +316,34 @@ namespace EzTravel
                 }
                 if (e.KeyCode == Keys.Enter)
                 {
-                    txt_Departure.Text = lbox_Destination.SelectedItem.ToString();
-                    hideListbox();
+                    if (lbox_Destination.SelectedIndex != null)
+                    {
+                        txt_Destination.Text = lbox_Destination.SelectedItem.ToString();
+                        hideListbox();
+                    }
                 }
             }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+            hideListbox();
+        }
+
+        private void btn_Mail_Click(object sender, EventArgs e)
+        {
+            string textToPrint = "";
+            for (int row = 0; row < dtg_Plan.Rows.Count; row++)
+            {
+                textToPrint = 
+                              dtg_Plan.Rows[row].Cells[0].Value.ToString() + "\t" +
+                              dtg_Plan.Rows[row].Cells[1].Value.ToString() + "\t" +
+                              dtg_Plan.Rows[row].Cells[2].Value.ToString() + "\t" +
+                              dtg_Plan.Rows[row].Cells[3].Value.ToString() + "\t";
+            }
+            MessageBox.Show(textToPrint);
+            var url = "mailto:dario.portmann@bbv.ch?subject=Meine"+" Verbindungen&body=" + textToPrint;
+            Process.Start(url);
         }
     }
 }
